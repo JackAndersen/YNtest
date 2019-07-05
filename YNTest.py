@@ -37,7 +37,7 @@ cert = (cert_file_path, key_file_path)
 # --- Connect and prettify the content / write to new file ---
 try:
     r = requests.post(url, headers=headers, params=params, cert=cert, verify=False)
-except requests.exceptions.RequestException as e:  # This is the correct syntax
+except requests.exceptions.RequestException as e:
     print ("\nAn exception was caught: \n" + str(e));
     
 #soup = BeautifulSoup(r.content)
