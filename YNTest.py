@@ -37,28 +37,30 @@ cert = (cert_file_path, key_file_path)
 # --- Connect and prettify the content / write to new file ---
 try:
     r = requests.post(url, headers=headers, params=params, cert=cert, verify=False)
+
+    
+    #soup = BeautifulSoup(r.content)
+    soup = BeautifulSoup(r.content, "html.parser")
+
+    # --- print returned and sent repsonse and headers ---
+    print ("\nHeaders: "); print (r.headers);
+
+    #option to output html as text or write to file.
+    #print ("\nContent: "); print (r.content);#(soup.prettify());
+    print ("\nContent: "); print ("Dowloaded as file to: " + str(os.path.dirname(os.path.realpath(cert_file_path))) + "\\" +  outfilename + ".html");
+    with open(outfilename + ".html", "w", encoding='utf-8') as file:
+        file.write(str(soup))
+
+    print ("\nStatus Code (is empty except for code 200): "); print (r.status_code, "STATUS CODE");
+
+    print ("\n" + "Requests repsonse: " + str(r));
+
+    print ("\nResponse history (is empty except for code 200, all codes to complete request, in order): "); print (r.history); #Response objects that were created in order to complete the request. The list is sorted from the oldest to the most recent response.
+
+    print ("\nResponse: "); print (r.raw);
+
 except requests.exceptions.RequestException as e:
     print ("\nAn exception was caught: \n" + str(e));
-    
-#soup = BeautifulSoup(r.content)
-soup = BeautifulSoup(r.content, "html.parser")
-
-# --- print returned and sent repsonse and headers ---
-print ("\nHeaders: "); print (r.headers);
-
-#option to output html as text or write to file.
-#print ("\nContent: "); print (r.content);#(soup.prettify());
-print ("\nContent: "); print ("Dowloaded as file to: " + str(os.path.dirname(os.path.realpath(cert_file_path))) + "\\" +  outfilename + ".html");
-with open(outfilename + ".html", "w", encoding='utf-8') as file:
-    file.write(str(soup))
-    
-print ("\nStatus Code (is empty except for code 200): "); print (r.status_code, "STATUS CODE");
-
-print ("\n" + "Requests repsonse: " + str(r));
-
-print ("\nResponse history (is empty except for code 200, all codes to complete request, in order): "); print (r.history); #Response objects that were created in order to complete the request. The list is sorted from the oldest to the most recent response.
-
-print ("\nResponse: "); print (r.raw);
 
 
 
